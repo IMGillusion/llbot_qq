@@ -98,4 +98,10 @@ curl -s -X POST http://127.0.0.1:8765/onebot \
   跨线程用 `asyncio.run_coroutine_threadsafe`。
 - **消息里带 token/密钥会被 QQ 服务端打码**：收机密文件要走文件消息，别走正文。
 
+## 赞助
+
+如果这个项目对你有用，欢迎赞助支持一下，请我喝杯奶茶：
+
+![sponsor](assets/sponsor.jpg)
+
 —— 幻日出品
