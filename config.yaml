@@ -1,0 +1,36 @@
+# llbot_qq 子项目配置（QQ 对接）
+qq:
+  id: "YOUR_QQ_ID"   # 你的 QQ 号（占位；supervisor 靠它渲染启动命令）
+  name: "幻日"      # AI 在 QQ 世界的名字，也是核心触发词
+
+# LLBot 暴露的 OneBot 11 反向 WebSocket（端口以 vendor/llbot 实际配置为准）
+onebot:
+  ws_url: "ws://127.0.0.1:3001"
+  ws_token: ""
+
+# llbot_qq 自己的 HTTP API（供幻日/hermes 调用来执行 QQ 操作）
+api:
+  host: "127.0.0.1"
+  port: 8765
+
+# 触发规则：含名字必触发；其余按概率
+trigger:
+  group_probability: 0.05      # 群消息 5%
+  private_probability: 0.50    # 私聊消息 50%（主人 2026-08-31 指示从 20% 上调）
+  other_probability: 0.01      # 好友/加群等事件 1%
+
+# 媒体落地：图片/文件/语音/视频下载到本地 media/（缓存 JSON 里记 media_path）
+media:
+  enabled: true
+  dir: "media"             # 相对 subprojects/llbot_qq/
+  max_age_days: 30         # 超过 30 天的媒体目录自动清理
+
+# 发送节流：同一目标（群/私聊）两条消息之间强制间隔，与字数成正比（模拟真人打字）
+send:
+  sec_per_char: 0.25       # 每字耗时（秒）：20 字 ≈ 5 秒，8 字 ≈ 2 秒
+  min_interval: 1.5        # 最短间隔（秒，短句也有停顿）
+  max_interval: 8.0        # 最长间隔（秒，超长消息封顶）
+
+cache:
+  dir: "cache"                 # 相对 subprojects/llbot_qq/ 的缓存目录
+  max_lines: 50                # 单文件消息数上限（约50条），超限自动滚动到新文件（知会也指向新文件）
